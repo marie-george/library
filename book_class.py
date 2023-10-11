@@ -30,8 +30,16 @@ class Book:
             book.write(chapters)
 
     def change_name(self, new_name):
-        os.rename(self.name, new_name)
+        old_book_name = f'Название книги - {self.name}\n'
+        os.rename(f'data/{self.name}', f'data/{new_name}')
         self.name = new_name
+        file_info = f"data/{self.name}/info.txt"
+        with open(file_info, 'r', encoding='utf-8') as f:
+            old_data = f.read()
+        new_book_name = f'Название книги - {self.name}\n'
+        new_data = old_data.replace(old_book_name, new_book_name)
+        with open(file_info, 'w', encoding='utf-8') as f:
+            f.write(new_data)
 
     def delete(self):
         shutil.rmtree(self.name)
@@ -70,4 +78,5 @@ class Book:
             with open(file, 'rt', encoding='utf-8') as f:
                 content = f.read()
                 print(content)
+
 
